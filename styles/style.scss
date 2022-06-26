@@ -12,12 +12,18 @@ body {
     height: 100vh;
 }
 
-.cell {
-    width: 200px;
-    height: 200px;
-    border: 1px solid black;
-    font-size: 200px;
+.board {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    .sect {
+        .cell {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            font-size: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+    
 }
