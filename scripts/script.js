@@ -8,12 +8,15 @@ let flag = 0;
 cells.forEach(cell => {
     
     cell.addEventListener("click", e => {
-        if(flag === 0) {
-            cell.textContent = "X";
-            flag = 1;
-        } else {
-            cell.textContent = "O";
-            flag = 0;
+        if(cell.textContent) return;
+        else {
+            if(flag === 0) {
+                cell.textContent = "X";
+                flag = 1;
+            } else {
+                cell.textContent = "O";
+                flag = 0;
+            }
         }
     });
 
