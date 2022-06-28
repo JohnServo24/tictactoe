@@ -31,30 +31,28 @@ class Gameboard {
         this.gameboard = new Array(9);
     }
 
-    set addItem(char) {
-        this.gameboard.push(char);
+    addItem(index, char) {
+        this.gameboard[index] = char;
     }
 }
 
-class createPlayer {
-    constructor(player, symbol) {
+class CreatePlayer {
+    constructor(player) {
         this.player = player;
-        this.symbol = symbol;
+        this.score = 0;
     }
 }
 
 class Game {
 
-    static player1 = new createPlayer("Player 1", "X");
-    static player2 = new createPlayer("Player 2", "O");
+    static player1 = new CreatePlayer("Player 1");
+    static player2 = new CreatePlayer("Player 2");
 
-    constructor() {
-        this.player1Score = 0;
-        this.player2Score = 0;
-    }
+    
 }
 
 const gameBoard = new Gameboard();
+const game = new Game();
 
 // gameBoard.addItem = "X";
 // gameBoard.addItem = "X";
@@ -79,9 +77,12 @@ cells.forEach(cell => {
         else {
             if (flag === 0) {
                 cell.textContent = "X";
+                gameBoard.addItem(cell.id, "X");
                 flag = 1;
+                
             } else {
                 cell.textContent = "O";
+                gameBoard.addItem(cell.id, "O");
                 flag = 0;
             }
         }
