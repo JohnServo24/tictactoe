@@ -78,19 +78,22 @@ class Game extends Gameboard {
         // Checks if theres a winner in a column
 
         // Lists the numbers for columns
+
         // I couldve just put columnNums = [0,3,6,1...,9] lmao
-        let columnNums = [];
-        for(i = 0; i < 3; i++) {
-            let temp = i;
-            columnNums.push(i);
+        // let columnNums = [];
+        // for(i = 0; i < 3; i++) {
+        //     let temp = i;
+        //     columnNums.push(i);
     
-            for(let t = 0; t < 2; t++) {
-                 i += 3;
-                 columnNums.push(i);
-            }
+        //     for(let t = 0; t < 2; t++) {
+        //          i += 3;
+        //          columnNums.push(i);
+        //     }
     
-            i = temp;
-        }
+        //     i = temp;
+        // }
+
+        const columnNums = [0, 3, 6, 1, 4, 7, 2, 5, 8];
 
         for(i = 0; i < gameboard.length; i++) {
             if((i + 1) % 3 === 0) {
@@ -107,6 +110,7 @@ class Game extends Gameboard {
             }
         }
 
+        // Checks if there is a winner in the diagonal parts
         if(gameboard[0] === 'X' && gameboard[4] === 'X' && gameboard[8] === 'X') return 'X';
         else if(gameboard[0] === 'O' && gameboard[4] === 'O' && gameboard[8] === 'O') return 'O';
 
