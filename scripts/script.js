@@ -41,17 +41,56 @@ class CreatePlayer {
         this.player = player;
         this.score = 0;
     }
+
+    addScore() {
+        this.score += 1;
+    }
 }
 
-class Game {
+class Game extends Gameboard {
+    player1 = new CreatePlayer("player1");
+    player2 = new CreatePlayer("player2");
 
-    static player1 = new CreatePlayer("Player 1");
-    static player2 = new CreatePlayer("Player 2");
+    checkWinner() {
+        let i = 0;
+        let t = 0;
+        let winner = "";
+        let arr = [];
 
+        // Checks if theres a winner in a row
+        check: for(i = 0; i < 9; i++) {
+            arr[i] = this.gameboard[i];
+
+            console.log(arr);
+
+            if(arr.length % 3 === 0) {
+                let checker = 0;
+                for(t = i - 2; t < arr.length; t++) {
+                    if(arr[t] === arr[t+1] && arr[t] !== undefined && arr[t+1] !== undefined) checker += 1;
+                    
+                    if(checker === 2) {
+                        winner = arr[t];
+                        break check;
+                    }
+                }
+            }
+        }
+
+        // Checks if theres a winner in a column
+         for(let i = 0; i < 3; i++) {
+            let temp = i;
+            arr.push(i);
     
+            for(let t = 0; t < 2; t++) {
+                 i += 3;
+                arr.push(i);
+            }
+    
+            i = temp;
+        }
+    }
 }
 
-const gameBoard = new Gameboard();
 const game = new Game();
 
 // gameBoard.addItem = "X";
@@ -77,12 +116,12 @@ cells.forEach(cell => {
         else {
             if (flag === 0) {
                 cell.textContent = "X";
-                gameBoard.addItem(cell.id, "X");
+                game.addItem(cell.id, "X");
                 flag = 1;
                 
             } else {
                 cell.textContent = "O";
-                gameBoard.addItem(cell.id, "O");
+                game.addItem(cell.id, "O");
                 flag = 0;
             }
         }
@@ -90,3 +129,22 @@ cells.forEach(cell => {
 
 });
 
+// i = 0
+// Store i to temp
+// push i
+// add 3 to i
+// push i
+// add 3 to i 
+// push i
+// turn i to temp + 1
+// for(let i = 0; i < 3; i++) {
+//     let temp = i;
+//     arr.push(i);
+    
+//     for(let t = 0; t < 2; t++) {
+//         i += 3;
+//         arr.push(i);
+//     }
+    
+//     i = temp;
+// }
