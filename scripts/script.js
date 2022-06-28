@@ -28,7 +28,7 @@
 
 class Gameboard {
     constructor() {
-        this.gameboard = [];
+        this.gameboard = new Array(9);
     }
 
     set addItem(char) {
@@ -36,21 +36,24 @@ class Gameboard {
     }
 }
 
-class Players {
-    constructor(player) {
+class createPlayer {
+    constructor(player, symbol) {
         this.player = player;
-        this.score = 0;
+        this.symbol = symbol;
     }
 }
 
 class Game {
-    constructor() {
 
+    static player1 = new createPlayer("Player 1", "X");
+    static player2 = new createPlayer("Player 2", "O");
+
+    constructor() {
+        this.player1Score = 0;
+        this.player2Score = 0;
     }
 }
 
-const player1 = new Players("Player 1");
-const player2 = new Players("Player 2");
 const gameBoard = new Gameboard();
 
 // gameBoard.addItem = "X";
