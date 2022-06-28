@@ -54,9 +54,7 @@ class Game extends Gameboard {
     checkWinner() {
         let i = 0;
         let t = 0;
-        let winner = "";
         let gameboard = this.gameboard;
-        let arr = [];
 
         // Checks if theres a winner in a row
 
@@ -64,7 +62,10 @@ class Game extends Gameboard {
             if((i + 1) % 3 === 0) {
                 let checker = 0;
                 for(t = i - 2; t < i + 1; t++) {
-                    if(gameboard[t] === gameboard[t+1] && gameboard[t] !== undefined && gameboard[t+1] !== undefined) checker += 1;
+                    if(gameboard[t] === gameboard[t+1] && 
+                        gameboard[t] !== undefined && 
+                        gameboard[t+1] !== undefined)
+                        checker += 1;
                     
                     if(checker === 2) {
                         return gameboard[t];
@@ -74,21 +75,34 @@ class Game extends Gameboard {
         }
 
         // Checks if theres a winner in a column
-        arr = [];
+
+        // Lists the numbers for columns
+        let columnNums = [];
         for(i = 0; i < 3; i++) {
             let temp = i;
-            arr.push(i);
+            columnNums.push(i);
     
             for(let t = 0; t < 2; t++) {
                  i += 3;
-                arr.push(i);
+                 columnNums.push(i);
             }
     
             i = temp;
         }
 
-        for(i = 0; i < 9; i++) {
-
+        for(i = 0; i < gameboard.length; i++) {
+            if((i + 1) % 3 === 0) {
+                let checker = 0;
+                for(t = i - 2; t < i + 1; t++) {
+                    if(gameboard[columnNums[t]] === gameboard[columnNums[t + 1]] && 
+                        gameboard[columnNums[t]] !== undefined && 
+                        gameboard[columnNums[t + 1]] !== undefined) checker += 1;
+                    
+                    if(checker === 2) {
+                        return gameboard[columnNums[t]];
+                    }
+                }
+            }
         }
     }
 }
