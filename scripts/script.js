@@ -62,9 +62,10 @@ class Game extends Gameboard {
             if((i + 1) % 3 === 0) {
                 let checker = 0;
                 for(t = i - 2; t < i + 1; t++) {
-                    if(gameboard[t] === gameboard[t+1] && 
+
+                    if(gameboard[t] === gameboard[t + 1] && 
                         gameboard[t] !== undefined && 
-                        gameboard[t+1] !== undefined)
+                        gameboard[t + 1] !== undefined)
                         checker += 1;
                     
                     if(checker === 2) {
@@ -77,6 +78,7 @@ class Game extends Gameboard {
         // Checks if theres a winner in a column
 
         // Lists the numbers for columns
+        // I couldve just put columnNums = [0,3,6,1...,9] lmao
         let columnNums = [];
         for(i = 0; i < 3; i++) {
             let temp = i;
@@ -104,6 +106,13 @@ class Game extends Gameboard {
                 }
             }
         }
+
+        if(gameboard[0] === 'X' && gameboard[4] === 'X' && gameboard[8] === 'X') return 'X';
+        else if(gameboard[0] === 'O' && gameboard[4] === 'O' && gameboard[8] === 'O') return 'O';
+
+        if(gameboard[2] === 'X' && gameboard[4] === 'X' && gameboard[6] === 'X') return 'X';
+        else if(gameboard[2] === 'O' && gameboard[4] === 'O' && gameboard[6] === 'O') return 'O';
+        
     }
 }
 
