@@ -55,29 +55,27 @@ class Game extends Gameboard {
         let i = 0;
         let t = 0;
         let winner = "";
+        let gameboard = this.gameboard;
         let arr = [];
 
         // Checks if theres a winner in a row
-        check: for(i = 0; i < 9; i++) {
-            arr[i] = this.gameboard[i];
 
-            console.log(arr);
-
-            if(arr.length % 3 === 0) {
+        for(i = 0; i < gameboard.length; i++) {
+            if((i + 1) % 3 === 0) {
                 let checker = 0;
-                for(t = i - 2; t < arr.length; t++) {
-                    if(arr[t] === arr[t+1] && arr[t] !== undefined && arr[t+1] !== undefined) checker += 1;
+                for(t = i - 2; t < i + 1; t++) {
+                    if(gameboard[t] === gameboard[t+1] && gameboard[t] !== undefined && gameboard[t+1] !== undefined) checker += 1;
                     
                     if(checker === 2) {
-                        winner = arr[t];
-                        break check;
+                        return gameboard[t];
                     }
                 }
             }
         }
 
         // Checks if theres a winner in a column
-         for(let i = 0; i < 3; i++) {
+        arr = [];
+        for(i = 0; i < 3; i++) {
             let temp = i;
             arr.push(i);
     
@@ -87,6 +85,10 @@ class Game extends Gameboard {
             }
     
             i = temp;
+        }
+
+        for(i = 0; i < 9; i++) {
+
         }
     }
 }
