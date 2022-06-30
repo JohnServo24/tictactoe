@@ -92,7 +92,12 @@ class Game extends Gameboard {
         if(gameboard[2] === 'X' && gameboard[4] === 'X' && gameboard[6] === 'X') return 'X';
         else if(gameboard[2] === 'O' && gameboard[4] === 'O' && gameboard[6] === 'O') return 'O';
 
-        
+        // Checks if the board is full
+        let count = 0;
+        for(i = 0; i < 9; i++) {
+            if(gameboard[i] === undefined) count++;
+        }
+        if(count === 0) return "DRAW!";
     }
 }
 
@@ -128,6 +133,8 @@ cells.forEach(cell => {
                 flag = 0;
             }
             game.addItem(cell.id, cell.textContent);
+
+            if(game.checkWinner()) console.log(game.checkWinner());
             // console.log(game.checkWinner());
         }
     });
