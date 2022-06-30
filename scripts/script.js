@@ -56,57 +56,32 @@ class Game extends Gameboard {
         let t = 0;
         let gameboard = this.gameboard;
 
+        
+        // The position of the board
+        const boardNums = [[0, 1, 2],
+                           [3, 4, 5],
+                           [6, 7, 8],
+                          ];
+
         // Checks if theres a winner in a row
-
-        for(i = 0; i < gameboard.length; i++) {
-            if((i + 1) % 3 === 0) {
-                let checker = 0;
-                for(t = i - 2; t < i + 1; t++) {
-
-                    if(gameboard[t] === gameboard[t + 1] && 
-                        gameboard[t] !== undefined && 
-                        gameboard[t + 1] !== undefined)
-                        checker += 1;
-                    
-                    if(checker === 2) {
-                        return gameboard[t];
-                    }
-                }
+        for(i = 0; i < 3; i++) {
+            for(t = 0; t < 3; t++) {
+                if(gameboard[boardNums[i][t]] === undefined) break;
+                else if (gameboard[boardNums[i][0]] === gameboard[boardNums[i][1]] &&
+                    gameboard[boardNums[i][0]] === gameboard[boardNums[i][2]]) 
+                    return gameboard[boardNums[i][0]];
+                break;
             }
         }
 
         // Checks if theres a winner in a column
-
-        // Lists the numbers for columns
-
-        // I couldve just put columnNums = [0,3,6,1...,9] lmao
-        // let columnNums = [];
-        // for(i = 0; i < 3; i++) {
-        //     let temp = i;
-        //     columnNums.push(i);
-    
-        //     for(let t = 0; t < 2; t++) {
-        //          i += 3;
-        //          columnNums.push(i);
-        //     }
-    
-        //     i = temp;
-        // }
-
-        const columnNums = [0, 3, 6, 1, 4, 7, 2, 5, 8];
-
-        for(i = 0; i < gameboard.length; i++) {
-            if((i + 1) % 3 === 0) {
-                let checker = 0;
-                for(t = i - 2; t < i + 1; t++) {
-                    if(gameboard[columnNums[t]] === gameboard[columnNums[t + 1]] && 
-                        gameboard[columnNums[t]] !== undefined && 
-                        gameboard[columnNums[t + 1]] !== undefined) checker += 1;
-                    
-                    if(checker === 2) {
-                        return gameboard[columnNums[t]];
-                    }
-                }
+        for(i = 0; i < 3; i++) {
+            for(t = 0; t < 3; t++) {
+                if(gameboard[boardNums[t][i]] === undefined) break;
+                else if (gameboard[boardNums[0][i]] === gameboard[boardNums[1][i]] &&
+                    gameboard[boardNums[0][i]] === gameboard[boardNums[2][i]]) 
+                    return gameboard[boardNums[0][i]];
+                break;
             }
         }
 
@@ -116,6 +91,7 @@ class Game extends Gameboard {
 
         if(gameboard[2] === 'X' && gameboard[4] === 'X' && gameboard[6] === 'X') return 'X';
         else if(gameboard[2] === 'O' && gameboard[4] === 'O' && gameboard[6] === 'O') return 'O';
+
         
     }
 }
@@ -145,14 +121,14 @@ cells.forEach(cell => {
         else {
             if (flag === 0) {
                 cell.textContent = "X";
-                game.addItem(cell.id, "X");
                 flag = 1;
                 
             } else {
                 cell.textContent = "O";
-                game.addItem(cell.id, "O");
                 flag = 0;
             }
+            game.addItem(cell.id, cell.textContent);
+            // console.log(game.checkWinner());
         }
     });
 
