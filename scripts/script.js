@@ -122,8 +122,49 @@ class Game extends Gameboard {
         if(full) return full;
     }
 
+    generateElements() {
+        const display = document.createElement("div");
+        const text = document.createElement("div");
+        const h1 = document.createElement("h1");
+        const p = document.createElement("p");
+        const scoreDiv = document.createElement("div");
+        const xSpan = document.createElement("span");
+        const xScore = document.createElement("span");
+        const ySpan = document.createElement("span");
+        const yScore = document.createElement("span");
+
+        const body = document.querySelector("body");
+
+        body.append(display);
+
+        display.append(text);
+        text.append(h1);
+        text.append(p);
+
+        display.append(scoreDiv);
+        scoreDiv.append(xSpan);
+        scoreDiv.append(ySpan);
+
+        display.classList.add("winner");
+        text.classList.add("text");
+        scoreDiv.classList.add("score-display");
+
+        h1.id = "header";
+        xScore.id = "player1Score";
+        yScore.id = "player2Score";
+
+        h1.textContent = "WINS THIS ROUND!";
+        p.textContent = "Tap to play again.";
+        xSpan.textContent = "X - ";
+        ySpan.textContent = "Y - ";
+
+        xSpan.append(xScore);
+        ySpan.append(yScore);
+    }
+
     outputWinner(winner) {
-        
+        this.generateElements();
+
     }
 
     changeTurns() {
@@ -132,8 +173,8 @@ class Game extends Gameboard {
     }
 
     gameListener(e) {
-
         if(this.checkWinner()) return;
+
 
         if (e.target.innerText) return;
         else {
@@ -142,6 +183,7 @@ class Game extends Gameboard {
             this.changeTurns();
         }
 
+        if(this.checkWinner()) this.outputWinner();
     }
 }
 
