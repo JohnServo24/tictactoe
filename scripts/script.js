@@ -29,10 +29,18 @@
 class Gameboard {
     constructor() {
         this.gameboard = new Array(9);
+        this.boardNums = [[0, 1, 2],
+                          [3, 4, 5],
+                          [6, 7, 8],];
     }
 
     addItem(index, char) {
         this.gameboard[index] = char;
+    }
+
+    displayItem(turn, e) {
+        if(turn === 0) e.target.innerText = "X";
+        else e.target.innerText = "O";
     }
 }
 
@@ -51,21 +59,14 @@ class Game extends Gameboard {
     player1 = new CreatePlayer("player1");
     player2 = new CreatePlayer("player2");
 
-    checkWinner() {
-        let i = 0;
-        let t = 0;
-        let gameboard = this.gameboard;
+    constructor() {
+        super(); 
+        this.playerTurn = 0;
+    }
 
-        
-        // The position of the board
-        const boardNums = [[0, 1, 2],
-                           [3, 4, 5],
-                           [6, 7, 8],
-                          ];
-
-        // Checks if theres a winner in a row
-        for(i = 0; i < 3; i++) {
-            for(t = 0; t < 3; t++) {
+    checkRows(gameboard, boardNums) {
+        for(let i = 0; i < 3; i++) {
+            for(let t = 0; t < 3; t++) {
                 if(gameboard[boardNums[i][t]] === undefined) break;
                 else if (gameboard[boardNums[i][0]] === gameboard[boardNums[i][1]] &&
                     gameboard[boardNums[i][0]] === gameboard[boardNums[i][2]]) 
@@ -73,10 +74,11 @@ class Game extends Gameboard {
                 break;
             }
         }
+    }
 
-        // Checks if theres a winner in a column
-        for(i = 0; i < 3; i++) {
-            for(t = 0; t < 3; t++) {
+    checkColumn(gameboard, boardNums) {
+        for(let i = 0; i < 3; i++) {
+            for(let t = 0; t < 3; t++) {
                 if(gameboard[boardNums[t][i]] === undefined) break;
                 else if (gameboard[boardNums[0][i]] === gameboard[boardNums[1][i]] &&
                     gameboard[boardNums[0][i]] === gameboard[boardNums[2][i]]) 
@@ -84,62 +86,71 @@ class Game extends Gameboard {
                 break;
             }
         }
+    }
 
-        // Checks if there is a winner in the diagonal parts
+    checkDiagonal(gameboard) {
         if(gameboard[0] === 'X' && gameboard[4] === 'X' && gameboard[8] === 'X') return 'X';
         else if(gameboard[0] === 'O' && gameboard[4] === 'O' && gameboard[8] === 'O') return 'O';
 
         if(gameboard[2] === 'X' && gameboard[4] === 'X' && gameboard[6] === 'X') return 'X';
         else if(gameboard[2] === 'O' && gameboard[4] === 'O' && gameboard[6] === 'O') return 'O';
+    }
 
-        // Checks if the board is full
+    isFull(gameboard) {
         let count = 0;
-        for(i = 0; i < 9; i++) {
+        for(let i = 0; i < 9; i++) {
             if(gameboard[i] === undefined) count++;
         }
         if(count === 0) return "DRAW!";
     }
+
+    checkWinner() {
+        // Checks if theres a winner in a row
+        const rowVal = this.checkRows(this.gameboard, this.boardNums);
+        if(rowVal) return rowVal;
+
+        // Checks if theres a winner in a column
+        const columnVal = this.checkColumn(this.gameboard, this.boardNums);
+        if(columnVal) return columnVal;
+
+        // Checks if there is a winner in the diagonal parts
+        const diagVal = this.checkDiagonal(this.gameboard, this.boardNums);
+        if(diagVal) return diagVal;
+
+        // Checks if the board is full
+        const full = this.isFull(this.gameboard);
+        if(full) return full;
+    }
+
+    outputWinner(winner) {
+        
+    }
+
+    changeTurns() {
+        if(this.playerTurn === 0) this.playerTurn = 1;
+        else this.playerTurn = 0;
+    }
+
+    gameListener(e) {
+
+        if(this.checkWinner()) return;
+
+        if (e.target.innerText) return;
+        else {
+            super.displayItem(this.playerTurn, e);
+            super.addItem(e.target.id, e.target.innerText);
+            this.changeTurns();
+        }
+
+    }
 }
 
 const game = new Game();
-
-// gameBoard.addItem = "X";
-// gameBoard.addItem = "X";
-// gameBoard.addItem = "X";
-// gameBoard.addItem = "X";
-// gameBoard.addItem = "X";
-// gameBoard.addItem = "X";
-// gameBoard.addItem = "X";
-// gameBoard.addItem = "X";
-// gameBoard.addItem = "X";
-// gameBoard.addItem = "X";
-
 const board = document.getElementById('board');
 const cells = board.querySelectorAll('.cell');
 
 // Displays and alternates between X & Y
-let flag = 0;
-cells.forEach(cell => {
-
-    cell.addEventListener("click", e => {
-        if (cell.textContent) return;
-        else {
-            if (flag === 0) {
-                cell.textContent = "X";
-                flag = 1;
-                
-            } else {
-                cell.textContent = "O";
-                flag = 0;
-            }
-            game.addItem(cell.id, cell.textContent);
-
-            if(game.checkWinner()) console.log(game.checkWinner());
-            // console.log(game.checkWinner());
-        }
-    });
-
-});
+cells.forEach(cell => {cell.addEventListener("click", e => {game.gameListener(e)});});
 
 // i = 0
 // Store i to temp

@@ -9,11 +9,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     height: 100vh;
 }
 
 .board {
     display: flex;
+    place-items: center;
     .sect {
         .cell {
             width: 200px;
@@ -27,3 +29,35 @@ body {
     }
     
 }
+
+.winner{
+    width: 500px;
+    height: 250px;
+    background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0,.5));
+    color: white;
+    position: absolute;
+    border-radius: 15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: space-evenly;
+    flex-direction: column;
+
+    .text {
+        text-align: center;
+        padding-bottom: 1rem;
+    }
+
+    .score-display {
+        width: 100%;
+        display:flex;
+        justify-content: space-evenly;
+        font-size: 3rem;
+
+        .winnerScore {
+            color: red;
+        }
+    }
+    
+}
+

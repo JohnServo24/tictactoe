@@ -9,11 +9,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   height: 100vh;
 }
 
 .board {
   display: flex;
+  place-items: center;
 }
 .board .sect .cell {
   width: 200px;
@@ -23,4 +25,30 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.winner {
+  width: 500px;
+  height: 250px;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+  color: white;
+  position: absolute;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: space-evenly;
+  flex-direction: column;
+}
+.winner .text {
+  text-align: center;
+  padding-bottom: 1rem;
+}
+.winner .score-display {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 3rem;
+}
+.winner .score-display .winnerScore {
+  color: red;
 }/*# sourceMappingURL=style.css.map */
