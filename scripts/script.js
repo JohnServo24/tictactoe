@@ -98,9 +98,7 @@ class Game extends Gameboard {
 
     isFull(gameboard) {
         let count = 0;
-        for(let i = 0; i < 9; i++) {
-            if(gameboard[i] === undefined) count++;
-        }
+        for(let i = 0; i < 9; i++) {if(gameboard[i] === undefined) count++;}
         if(count === 0) return "DRAW!";
     }
 
@@ -122,7 +120,7 @@ class Game extends Gameboard {
         if(full) return full;
     }
 
-    generateElements() {
+    generateElements(winner) {
         const display = document.createElement("div");
         const text = document.createElement("div");
         const h1 = document.createElement("h1");
@@ -135,6 +133,27 @@ class Game extends Gameboard {
 
         const body = document.querySelector("body");
 
+        display.classList.add("winner");
+        text.classList.add("text");
+        scoreDiv.classList.add("score-display");
+
+        display.id = "winner-display";
+        h1.id = "header";
+        xScore.id = "player1Score";
+        yScore.id = "player2Score";
+
+        if(winner === "DRAW!") h1.textContent = `DRAW!`;
+        else h1.textContent = `${winner} WINS THIS ROUND!`;
+
+        p.textContent = "Tap to play again.";
+        xSpan.textContent = "X - ";
+        ySpan.textContent = "Y - ";
+        xScore.textContent = this.player1.score;
+        yScore.textContent = this.player2.score;
+
+        if(winner === 'X') xScore.classList.add("winner-score");
+        else if(winner === 'O') yScore.classList.add("winner-score");
+
         body.append(display);
 
         display.append(text);
@@ -144,27 +163,40 @@ class Game extends Gameboard {
         display.append(scoreDiv);
         scoreDiv.append(xSpan);
         scoreDiv.append(ySpan);
-
-        display.classList.add("winner");
-        text.classList.add("text");
-        scoreDiv.classList.add("score-display");
-
-        h1.id = "header";
-        xScore.id = "player1Score";
-        yScore.id = "player2Score";
-
-        h1.textContent = "WINS THIS ROUND!";
-        p.textContent = "Tap to play again.";
-        xSpan.textContent = "X - ";
-        ySpan.textContent = "Y - ";
-
         xSpan.append(xScore);
         ySpan.append(yScore);
     }
 
-    outputWinner(winner) {
-        this.generateElements();
+    getBoard() {return document.getElementById("board");}
+    getWinnerDisplay() {return document.getElementById("winner-display");}
 
+    clearBoard() {
+        const board = this.getBoard();
+        const cells = board.querySelectorAll(".cell");
+
+        cells.forEach(item => {item.textContent = ""});
+    }
+
+    removeWinnerSign() {
+        const display = this.getWinnerDisplay();
+        const body = document.querySelector("body");
+
+        body.removeChild(display);
+    }
+
+    newGame() {
+        this.gameboard = new Array(9);
+        this.playerTurn = 0;
+
+        this.removeWinnerSign();
+        this.clearBoard();
+    }
+
+    outputWinner(winner) {
+        this.generateElements(winner);
+
+        const display = this.getWinnerDisplay();
+        display.addEventListener('click', () => {this.newGame()});
     }
 
     changeTurns() {
@@ -172,7 +204,13 @@ class Game extends Gameboard {
         else this.playerTurn = 0;
     }
 
+    giveScore(winner) {
+        if(winner === 'X') this.player1.addScore();
+        else if(winner ==='O') this.player2.addScore();
+    }
+
     gameListener(e) {
+
         if(this.checkWinner()) return;
 
 
@@ -183,7 +221,11 @@ class Game extends Gameboard {
             this.changeTurns();
         }
 
-        if(this.checkWinner()) this.outputWinner();
+        const winner = this.checkWinner();
+        if(winner) {
+            this.giveScore(winner);
+            this.outputWinner(winner);
+        }
     }
 }
 
