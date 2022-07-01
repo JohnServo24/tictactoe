@@ -56,6 +56,7 @@ class CreatePlayer {
 }
 
 class Game extends Gameboard {
+    // Creates two players, X & O
     player1 = new CreatePlayer("player1");
     player2 = new CreatePlayer("player2");
 
@@ -64,6 +65,7 @@ class Game extends Gameboard {
         this.playerTurn = 0;
     }
 
+    // Checks for winners in the rows
     checkRows(gameboard, boardNums) {
         for(let i = 0; i < 3; i++) {
             for(let t = 0; t < 3; t++) {
@@ -76,6 +78,7 @@ class Game extends Gameboard {
         }
     }
 
+    // Checks for winners in the columns
     checkColumn(gameboard, boardNums) {
         for(let i = 0; i < 3; i++) {
             for(let t = 0; t < 3; t++) {
@@ -88,6 +91,7 @@ class Game extends Gameboard {
         }
     }
 
+    // Checks for winners in the diagonal sections
     checkDiagonal(gameboard) {
         if(gameboard[0] === 'X' && gameboard[4] === 'X' && gameboard[8] === 'X') return 'X';
         else if(gameboard[0] === 'O' && gameboard[4] === 'O' && gameboard[8] === 'O') return 'O';
@@ -96,6 +100,7 @@ class Game extends Gameboard {
         else if(gameboard[2] === 'O' && gameboard[4] === 'O' && gameboard[6] === 'O') return 'O';
     }
 
+    // Checks if the board is full, meaning no winners
     isFull(gameboard) {
         let count = 0;
         for(let i = 0; i < 9; i++) {if(gameboard[i] === undefined) count++;}
@@ -120,6 +125,7 @@ class Game extends Gameboard {
         if(full) return full;
     }
 
+    // Generates the elements needed once round is over
     generateElements(winner) {
         const display = document.createElement("div");
         const text = document.createElement("div");
@@ -177,6 +183,7 @@ class Game extends Gameboard {
         cells.forEach(item => {item.textContent = ""});
     }
 
+    // Removes the "winner sign" if the players want a rematch
     removeWinnerSign() {
         const display = this.getWinnerDisplay();
         const body = document.querySelector("body");
@@ -192,6 +199,7 @@ class Game extends Gameboard {
         this.clearBoard();
     }
 
+    // Outputs the winner on a div
     outputWinner(winner) {
         this.generateElements(winner);
 
@@ -209,6 +217,7 @@ class Game extends Gameboard {
         else if(winner ==='O') this.player2.addScore();
     }
 
+    // Listens to the board and determines the game
     gameListener(e) {
 
         if(this.checkWinner()) return;
@@ -233,25 +242,5 @@ const game = new Game();
 const board = document.getElementById('board');
 const cells = board.querySelectorAll('.cell');
 
-// Displays and alternates between X & Y
+// Listens to the board
 cells.forEach(cell => {cell.addEventListener("click", e => {game.gameListener(e)});});
-
-// i = 0
-// Store i to temp
-// push i
-// add 3 to i
-// push i
-// add 3 to i 
-// push i
-// turn i to temp + 1
-// for(let i = 0; i < 3; i++) {
-//     let temp = i;
-//     arr.push(i);
-    
-//     for(let t = 0; t < 2; t++) {
-//         i += 3;
-//         arr.push(i);
-//     }
-    
-//     i = temp;
-// }
