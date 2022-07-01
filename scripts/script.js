@@ -219,17 +219,22 @@ class Game extends Gameboard {
 
     // Listens to the board and determines the game
     gameListener(e) {
+        // If there is a winner then stop
+        // if(this.checkWinner()) return;
 
-        if(this.checkWinner()) return;
-
-
-        if (e.target.innerText) return;
+        if (e.target.innerText) return; // If the cell is occupied, dont edit
         else {
-            super.displayItem(this.playerTurn, e);
-            super.addItem(e.target.id, e.target.innerText);
-            this.changeTurns();
+            // The "meat" of the game 
+            super.displayItem(this.playerTurn, e); // Displays item to the board
+            super.addItem(e.target.id, e.target.innerText); // Adds item to the array
+            this.changeTurns(); // Changes turns
         }
 
+        // Checks for the winner again
+        // If I only have 1 "winner checker" at the top, the program will wait for the
+        // next turn to display the winner even if there is already a winner
+        // If I put it at the bottom then it will continue
+        // the game even if the game has ended
         const winner = this.checkWinner();
         if(winner) {
             this.giveScore(winner);
