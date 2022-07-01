@@ -220,7 +220,7 @@ class Game extends Gameboard {
     // Listens to the board and determines the game
     gameListener(e) {
         // If there is a winner then stop
-        // if(this.checkWinner()) return;
+        if(this.checkWinner()) return;
 
         if (e.target.innerText) return; // If the cell is occupied, dont edit
         else {
